@@ -12,7 +12,7 @@
 	} from '$lib/components/ui/alert-dialog';
 	import { Avatar, AvatarFallback, AvatarImage } from '$lib/components/ui/avatar';
 	import { Badge } from '$lib/components/ui/badge';
-	import { Button } from '$lib/components/ui/button';
+	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import {
 		Card,
 		CardContent,
@@ -40,8 +40,6 @@
 
 	let { data }: PageProps = $props();
 
-	let isEditing = $state(false);
-
 	let formData = $state({
 		avatar: data.user.avatar,
 		name: data.user.name,
@@ -52,19 +50,8 @@
 		joinedDate: data.user.joinedDate
 	});
 
-	function handleEdit(listingId: string) {
-		console.log('Edit listing with ID:', listingId);
-	}
 	function handleDelete(listingId: string, listingTitle: string) {
 		console.log(`Delete listing with ID: ${listingId} and Title: ${listingTitle}`);
-	}
-	function handleSave() {
-		// Here you would typically send the updated formData to the server
-		console.log('Saving profile data:', formData);
-	}
-	function handleCancel() {
-		// Reset formData to original data
-		console.log('Cancelling edits');
 	}
 </script>
 
@@ -197,7 +184,7 @@
 								<CardFooter class="flex gap-2 border-t border-border bg-muted/30 p-3">
 									<Button
 										variant="outline"
-										href={`/listing/${listing.id}`}
+										href={`/listings/${listing.id}`}
 										size="sm"
 										class="flex-1 bg-transparent"
 									>
@@ -205,15 +192,15 @@
 										View
 									</Button>
 									{#if data.isCurrentUser}
-										<Button variant="outline" size="sm" href={`/listing/${listing.id}/edit`}>
+										<Button variant="outline" size="sm" href={`/listings/${listing.id}/edit`}>
 											<Pencil class="h-4 w-4" />
 										</Button>
 
 										<AlertDialog>
-											<AlertDialogTrigger>
-												<Button variant="outline" size="sm">
-													<Trash2 class="h-4 w-4" />
-												</Button>
+											<AlertDialogTrigger
+												class={buttonVariants({ variant: 'outline', size: 'sm' })}
+											>
+												<Trash2 class="h-4 w-4" />
 											</AlertDialogTrigger>
 											<AlertDialogContent>
 												<AlertDialogHeader>

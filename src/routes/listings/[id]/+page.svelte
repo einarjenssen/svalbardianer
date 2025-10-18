@@ -15,7 +15,8 @@
 		Gift,
 		MapPin,
 		Calendar,
-		Tag
+		Tag,
+		Pencil
 	} from '@lucide/svelte';
 	import type { PageProps } from './$types';
 
@@ -248,13 +249,18 @@
 							<div class="space-y-3">
 								<p class="text-sm text-muted-foreground">You are the seller of this item</p>
 								{#if data.listing.status === 'available'}
-									<Button
-										onclick={handleMarkAsSold}
-										variant="outline"
-										class="w-full bg-transparent"
-									>
-										Mark as Sold
-									</Button>
+									<div class="flex gap-2">
+										<Button
+											onclick={handleMarkAsSold}
+											variant="outline"
+											class="flex-1 bg-transparent"
+										>
+											Mark as Sold
+										</Button>
+										<Button variant="outline" size="sm" href={`/listings/${data.listing.id}/edit`}>
+											<Pencil class="h-4 w-4" />
+										</Button>
+									</div>
 								{:else}
 									<div class="rounded-lg bg-muted p-3 text-center">
 										<p class="text-sm font-medium text-muted-foreground">This item is sold</p>
