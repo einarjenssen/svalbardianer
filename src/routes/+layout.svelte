@@ -1,58 +1,46 @@
-<script>
-	import Header from '$lib/header/Header.svelte';
-  import { webVitals } from '$lib/vitals';
-  import { browser } from '$app/env';
-  import { page } from '$app/stores';
-  import '../app.css';
+<script lang="ts">
+	import { Home, PlusCircle, User } from '@lucide/svelte';
+	import '../app.css';
+	import { Button } from '$lib/components/ui/button';
+	import { page } from '$app/state';
+	import type { LayoutData } from './$types';
+	import type { Snippet } from 'svelte';
 
-  let analyticsId = import.meta.env.VERCEL_ANALYTICS_ID;
-
-  $: if (browser && analyticsId) {
-    webVitals({
-      path: $page.url.pathname,
-      params: $page.params,
-      analyticsId
-    })
-  }
+	let { children, data }: { data: LayoutData; children: Snippet } = $props();
 </script>
 
-<Header />
+<header
+	class="sticky top-0 z-50 w-full border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60"
+>
+	<div class="container mx-auto flex h-16 items-center justify-between px-4">
+		<a href="/" class="flex items-center gap-2">
+			<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
+				<Home class="h-6 w-6 text-primary-foreground" />
+			</div>
+			<span class="text-xl font-semibold text-foreground">Svalbardianer</span>
+		</a>
 
-<main>
-	<slot />
-</main>
-
-<footer>
-	<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-</footer>
-
-<style>
-	main {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		padding: 1rem;
-		width: 100%;
-		max-width: 1024px;
-		margin: 0 auto;
-		box-sizing: border-box;
-	}
-
-	footer {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 40px;
-	}
-
-	footer a {
-		font-weight: bold;
-	}
-
-	@media (min-width: 480px) {
-		footer {
-			padding: 40px 0;
-		}
-	}
-</style>
+		<nav class="flex items-center gap-2">
+			<Button variant={page.url.pathname === '/' ? 'default' : 'ghost'} href="/" size="sm">
+				Browse
+			</Button>
+			<Button
+				variant={page.url.pathname === '/listings/create' ? 'default' : 'ghost'}
+				href="/listings/create"
+				size="sm"
+			>
+				<PlusCircle class="mr-2 h-4 w-4" />
+				Post Item
+			</Button>
+			<Button
+				variant={page.url.pathname === '/profile' ? 'default' : 'ghost'}
+				href={'/user/' + data.currentUser.id}
+				size="sm"
+			>
+				<User class="mr-2 h-4 w-4" />
+				Profile
+			</Button>
+		</nav>
+	</div>
+</header>
+{@render children?.()}

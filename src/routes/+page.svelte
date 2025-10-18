@@ -1,57 +1,83 @@
-<script>
-	import Counter from '$lib/Counter.svelte';
+<script lang="ts">
+	import { Input } from '$lib/components/ui/input';
+	import * as Select from '$lib/components/ui/select/index';
+	import ListingCard from '$lib/ListingCard.svelte';
+	import { Search } from '@lucide/svelte';
+	import type { ListingType } from '$lib/types';
+	import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
+
+	let searchQuery = $state('');
+	let typeFilter = $state<ListingType | 'all'>('all');
+	let categoryFilter = $state<string>('all');
+
+	const filteredListings = $derived(
+		data.listings.filter((listing) => {
+			const matchesSearch =
+				listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				listing.description.toLowerCase().includes(searchQuery.toLowerCase());
+			const matchesType = typeFilter === 'all' || listing.type === typeFilter;
+			const matchesCategory = categoryFilter === 'all' || listing.category === categoryFilter;
+			return matchesSearch && matchesType && matchesCategory;
+		})
+	);
 </script>
 
-<svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
-</svelte:head>
+<div class="min-h-screen bg-background">
+	<!-- <Header /> -->
+	<main class="container mx-auto px-4 py-8">
+		<div class="mb-8">
+			<h1 class="mb-2 text-4xl font-bold text-balance text-foreground">
+				Velkommen til Svalbardianer.no
+			</h1>
+			<p class="text-lg leading-relaxed text-muted-foreground">
+				Beste stedet for å kjøpe og selge alt fra hus til langpang!
+			</p>
+		</div>
 
-<section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset="svelte-welcome.webp" type="image/webp" />
-				<img src="svelte-welcome.png" alt="Welcome" />
-			</picture>
-		</span>
+		<div class="mb-6 flex flex-col gap-4 md:flex-row">
+			<div class="relative flex-1">
+				<Search class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+				<Input placeholder="Search items..." bind:value={searchQuery} class="pl-10" />
+			</div>
+			<!-- TODO: Sortere på auksjon/fastpris når vi har det
+			 <Select.Root type="single" bind:value={typeFilter} name="typeFilter">
+				<Select.Trigger class="w-full md:w-[180px]"></Select.Trigger>
+				<Select.Content>
+					<Select.Item value="all">All Types</Select.Item>
+					<Select.Item value="free">Free</Select.Item>
+					<Select.Item value="fixed">Fixed Price</Select.Item>
+					<Select.Item value="auction">Auction</Select.Item>
+				</Select.Content>
+			</Select.Root> -->
+			<Select.Root type="single" bind:value={categoryFilter} name="categoryFilter">
+				{@const triggerContent = categoryFilter === 'all' ? 'All categories' : categoryFilter}
+				<Select.Trigger class="w-full md:w-[180px]">{triggerContent}</Select.Trigger>
+				<Select.Content>
+					<Select.Item value="all">All categories</Select.Item>
+					{#each data.categories as cat (cat)}
+						<Select.Item value={cat}>
+							{cat}
+						</Select.Item>
+					{/each}
+				</Select.Content>
+			</Select.Root>
+		</div>
 
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/index.svelte</strong>
-	</h2>
-
-	<Counter />
-</section>
-
-<style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 1;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
-</style>
+		{#if filteredListings.length === 0}
+			<div
+				class="flex min-h-[400px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-muted/30 p-8 text-center"
+			>
+				<p class="mb-2 text-lg font-medium text-foreground">No items found</p>
+				<p class="text-sm text-muted-foreground">Try adjusting your search or filters</p>
+			</div>
+		{:else}
+			<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+				{#each filteredListings as listing (listing.id)}
+					<ListingCard {listing} />
+				{/each}
+			</div>
+		{/if}
+	</main>
+</div>
