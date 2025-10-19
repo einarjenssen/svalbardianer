@@ -42,7 +42,6 @@
 	function nextImage() {
 		currentImageIndex = (currentImageIndex + 1) % (data.listing.images?.length || 1);
 	}
-	$inspect(data);
 </script>
 
 <div class="min-h-screen bg-background">
