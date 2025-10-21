@@ -15,10 +15,8 @@
 >
 	<div class="container mx-auto flex h-16 items-center justify-between px-4">
 		<a href="/" class="flex items-center gap-2">
-			<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-				<House class="h-6 w-6 text-primary-foreground" />
-			</div>
-			<span class="text-xl font-semibold text-foreground">Svalbardianer</span>
+			<img src="/svalbardianerlogo-200.png" class="h-10 w-10" alt="Svalbardianer.no"/>
+			<span class="text-xl font-semibold text-foreground">Svalbardianer.no</span>
 		</a>
 
 		<nav class="hidden items-center gap-2 md:flex">
