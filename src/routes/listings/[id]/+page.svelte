@@ -20,6 +20,15 @@
 	} from '@lucide/svelte';
 	import type { PageProps } from './$types';
 
+	// AUTH
+	import { authClient } from "$lib/auth-client";
+  	const session = authClient.useSession();
+
+	async function login() {
+    	await authClient.signIn.social({provider: "github", callbackURL: "/"});
+  	}
+	//
+
 	let { data }: PageProps = $props();
 
 	let currentImageIndex = $state(0);
@@ -156,6 +165,7 @@
 					</div>
 				</div>
 
+				{#if $session.data}
 				<Card>
 					<CardHeader>
 						<CardTitle>Comments</CardTitle>
@@ -220,6 +230,22 @@
 						</div>
 					</CardContent>
 				</Card>
+				{:else}
+				<Card>
+					<CardHeader>
+						<CardTitle>You need to log in before you can bid</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<Button
+							onclick={login}
+							variant="outline"
+							class="flex-1 bg-transparent"
+						>
+							Log in
+						</Button>
+					</CardContent>
+				</Card>
+				{/if}
 			</div>
 
 			<div class="lg:col-span-1">
