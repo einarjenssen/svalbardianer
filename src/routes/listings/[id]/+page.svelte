@@ -22,10 +22,32 @@
 
 	// AUTH
 	import { authClient } from "$lib/auth-client";
+	import { goto } from '$app/navigation';
   	const session = authClient.useSession();
 
 	async function login() {
-    	await authClient.signIn.social({provider: "github", callbackURL: "/"});
+		goto('/login');
+    	//await authClient.signIn.social({provider: "github", callbackURL: "/"});
+		/**
+		const result = await authClient.signIn.passkey({
+			autoFill: false,   // try false to get explicit prompt
+			fetchOptions: {
+			onSuccess(ctx) {
+				window.location.href = "/listings/";
+			},
+			onError(ctx) {
+				console.error("Passkey login failed:", ctx.error?.message);
+			}
+			}
+		});
+
+		// optionally debug result
+		if (result.error) {
+			console.warn("passkey sign-in error:", result.error);
+		} else {
+			console.log("passkey sign-in result:", result.data);
+		}
+		*/
   	}
 	//
 

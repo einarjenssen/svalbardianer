@@ -82,10 +82,14 @@
 									})}
 								</CardDescription>
 							</div>
-							<div class="flex flex-end">
-								<button class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50" onclick={signOut}>Sign out</button>
-
-							</div>
+						</div>
+						<div class="flex">
+							<button
+								class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
+								onclick={signOut}
+							>
+								Sign out
+							</button>
 						</div>
 						<!--
 						{#if data.isCurrentUser}
