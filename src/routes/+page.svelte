@@ -2,7 +2,7 @@
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select/index';
 	import ListingCard from '$lib/ListingCard.svelte';
-	import { Search } from '@lucide/svelte';
+	import { Search, X } from '@lucide/svelte';
 	import type { ListingType } from '$lib/types';
 	import type { PageProps } from './$types';
 
@@ -47,9 +47,9 @@
 				<Select.Trigger class="w-full md:w-[180px]">{triggerContent}</Select.Trigger>
 				<Select.Content>
 					<Select.Item value="all">All categories</Select.Item>
-					{#each data.categories as cat (cat)}
-						<Select.Item value={cat}>
-							{cat}
+					{#each data.categories.filter(c => c.parent_id === null) as cat (cat)}
+						<Select.Item value={cat.name}>
+							{cat.name}
 						</Select.Item>
 					{/each}
 				</Select.Content>

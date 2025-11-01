@@ -23,6 +23,7 @@
 	// AUTH
 	import { authClient } from "$lib/auth-client";
 	import { goto } from '$app/navigation';
+
   	const session = authClient.useSession();
 
 	async function login() {
@@ -187,7 +188,7 @@
 					</div>
 				</div>
 
-				{#if $session.data}
+				{#if $session.data && $session.data.user?.approved == true}
 				<Card>
 					<CardHeader>
 						<CardTitle>Comments</CardTitle>
@@ -250,6 +251,15 @@
 								</Button>
 							</div>
 						</div>
+					</CardContent>
+				</Card>
+				{:else if $session.data && $session.data.user?.approved == false}
+				<Card>
+					<CardHeader>
+						<CardTitle>Pending approval</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<p>An administrator will need to approve your user before you can comment</p>
 					</CardContent>
 				</Card>
 				{:else}

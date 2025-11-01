@@ -3,7 +3,11 @@ import { sveltekitCookies } from "better-auth/svelte-kit";
 import { passkey } from "better-auth/plugins/passkey";
 import { getRequestEvent } from "$app/server";
 import { Pool } from "pg";
+
 import { POSTGRES_URL, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, PASSKEY_DOMAIN, PASSKEY_APPNAME, PASSKEY_ORIGIN } from '$env/static/private';
+import { Resend } from 'resend';
+
+const resend = new Resend('re_bGxzR9G1_F2JcrEjnpK6QDMzc9eMmNPeS');
 
 export const auth = betterAuth({
       trustedOrigins: [
@@ -16,7 +20,41 @@ export const auth = betterAuth({
             rejectUnauthorized: false, //accept self-signed certs
         }
       }),
-      emailAndPassword: {enabled: true},
+      user: {
+        additionalFields: {
+          role: {
+            type: "string",
+            required: false,
+            defaultValue: "user",
+            input: false, // don't allow user to set role
+          },
+          approved: {
+            type: "boolean",
+            required: true,
+            defaultValue: "false",
+          },
+          approved_by: {
+            type: "string",
+            required: false,
+            defaultValue: "null",
+          },
+        },
+      },
+      emailAndPassword: {
+        enabled: true,
+        requireEmailVerification: true
+      },
+      emailVerification: {
+        sendOnSignUp: true,
+        sendVerificationEmail: async ( { user, url, token }, request) => {
+          await resend.emails.send({
+            from: 'noreply@svalbardianer.no',
+            to: user.email,
+            subject: "Verify your email address",
+            text: `Click the link to verify your email: ${url}`,
+          });
+        },
+      },
       socialProviders: { 
           github: { 
           clientId: GITHUB_CLIENT_ID, 
@@ -32,3 +70,4 @@ export const auth = betterAuth({
         sveltekitCookies(getRequestEvent)
       ], // make sure this is the last plugin in the array
 });
+

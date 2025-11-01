@@ -159,7 +159,7 @@
 				onclick={() => handleSocialLogin('google')}
 				disabled={loading}
 			>
-				<img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="h-5 w-5" />
+				<img src="/assets/logos/google-color.svg" alt="Google" class="h-5 w-5" />
 				<span>Continue with Google</span>
 			</button>
 
@@ -168,25 +168,17 @@
 				onclick={() => handleSocialLogin('facebook')}
 				disabled={loading}
 			>
-				<img src="https://www.svgrepo.com/show/475647/facebook-color.svg" alt="Facebook" class="h-5 w-5" />
+				<img src="/assets/logos/facebook-color.svg" alt="Facebook" class="h-5 w-5" />
 				<span>Continue with Facebook</span>
 			</button>
 
-			<button
-				class="flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2 hover:bg-gray-50"
-				onclick={() => handleSocialLogin('apple')}
-				disabled={loading}
-			>
-				<img src="https://www.svgrepo.com/show/303128/apple-logo.svg" alt="Apple" class="h-5 w-5" />
-				<span>Continue with Apple</span>
-			</button>
 
 			<button
 				class="flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2 hover:bg-gray-50"
 				onclick={() => handleSocialLogin('microsoft')}
 				disabled={loading}
 			>
-				<img src="https://www.svgrepo.com/show/373669/microsoft.svg" alt="Microsoft" class="h-5 w-5" />
+				<img src="/assets/logos/mssymbol_19.svg" alt="Microsoft" class="h-5 w-5" />
 				<span>Continue with Microsoft</span>
 			</button>
 
@@ -195,7 +187,7 @@
 				onclick={() => handleSocialLogin('github')}
 				disabled={loading}
 			>
-				<img src="https://www.svgrepo.com/show/475654/github-color.svg" alt="GitHub" class="h-5 w-5" />
+				<img src="/assets/logos/github-color.svg" alt="GitHub" class="h-5 w-5" />
 				<span>Continue with GitHub</span>
 			</button>
 		</div>

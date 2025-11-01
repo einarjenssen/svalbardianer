@@ -20,7 +20,7 @@
 		<a href="/" class="flex items-center gap-2">
 			<img src="/svalbardianerlogo-200.png" class="h-10 w-10" alt="Svalbardianer.no"/>
 			<span class="text-xl font-semibold text-foreground">Svalbardianer.no</span>
-			<span class="text-lg leading-relaxed text-muted-foreground"> [ Connect, Inform, Buy and Sell ]</span>
+			<span class="hidden lg	:block text-lg leading-relaxed text-muted-foreground"> [ Connect, Inform, Buy and Sell ]</span>
 		</a>
 
 		<nav class="hidden items-center gap-2 md:flex">
