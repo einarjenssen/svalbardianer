@@ -1,10 +1,11 @@
 import { betterAuth } from "better-auth";
 import { sveltekitCookies } from "better-auth/svelte-kit";
 import { passkey } from "better-auth/plugins/passkey";
+import { captcha } from "better-auth/plugins";
 import { getRequestEvent } from "$app/server";
 import { Pool } from "pg";
 
-import { POSTGRES_URL, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, PASSKEY_DOMAIN, PASSKEY_APPNAME, PASSKEY_ORIGIN } from '$env/static/private';
+import { POSTGRES_URL, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, PASSKEY_DOMAIN, PASSKEY_APPNAME, PASSKEY_ORIGIN, GOOGLE_CAPTCHA_SECRET } from '$env/static/private';
 import { Resend } from 'resend';
 
 const resend = new Resend('re_bGxzR9G1_F2JcrEjnpK6QDMzc9eMmNPeS');
@@ -57,11 +58,19 @@ export const auth = betterAuth({
       },
       socialProviders: { 
           github: { 
-          clientId: GITHUB_CLIENT_ID, 
-          clientSecret: GITHUB_CLIENT_SECRET, 
+            clientId: GITHUB_CLIENT_ID, 
+            clientSecret: GITHUB_CLIENT_SECRET, 
           },
+          google: {
+            //clientId: GOOGLE_CLIENT_ID,
+            //clientSecret: 
+          }
       },
       plugins: [
+        captcha({ 
+            provider: "google-recaptcha", // or google-recaptcha, hcaptcha, captchafox
+            secretKey: GOOGLE_CAPTCHA_SECRET!,  
+        }),
         passkey({
           rpID: PASSKEY_DOMAIN,
           rpName: PASSKEY_APPNAME,

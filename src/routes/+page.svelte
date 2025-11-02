@@ -5,12 +5,15 @@
 	import { Search, X } from '@lucide/svelte';
 	import type { ListingType } from '$lib/types';
 	import type { PageProps } from './$types';
+	import type { Category } from '$lib/types/category'
+	import LLUpcomingActivities from '$lib/components/LLUpcomingActivities.svelte';
+	import CategoryDropdown from '$lib/components/CategoryDropdown.svelte';
 
 	let { data }: PageProps = $props();
 
 	let searchQuery = $state('');
 	let typeFilter = $state<ListingType | 'all'>('all');
-	let categoryFilter = $state<string>('all');
+	let categoryFilter = $state<string>('All Categories');
 
 	const filteredListings = $derived(
 		data.listings.filter((listing) => {
@@ -18,10 +21,14 @@
 				listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
 				listing.description.toLowerCase().includes(searchQuery.toLowerCase());
 			const matchesType = typeFilter === 'all' || listing.type === typeFilter;
-			const matchesCategory = categoryFilter === 'all' || listing.category === categoryFilter;
+			const matchesCategory = categoryFilter === 'All Categories' || listing.category === categoryFilter;
 			return matchesSearch && matchesType && matchesCategory;
 		})
 	);
+
+	let selectedCategory: Category | null = null;
+
+
 </script>
 
 <div class="min-h-screen bg-background">
@@ -42,6 +49,7 @@
 					<Select.Item value="auction">Auction</Select.Item>
 				</Select.Content>
 			</Select.Root> -->
+			<!--
 			<Select.Root type="single" bind:value={categoryFilter} name="categoryFilter">
 				{@const triggerContent = categoryFilter === 'all' ? 'All categories' : categoryFilter}
 				<Select.Trigger class="w-full md:w-[180px]">{triggerContent}</Select.Trigger>
@@ -54,6 +62,20 @@
 					{/each}
 				</Select.Content>
 			</Select.Root>
+			-->
+			<div class="flex items-center gap-2">
+				<CategoryDropdown
+					categories={data.categories}
+					selected={selectedCategory}
+					onSelect={(cat) => {
+						selectedCategory = cat;
+						categoryFilter = cat.name;
+					}}
+				/>
+				{#if selectedCategory}
+					<span class="text-sm text-muted-foreground">Selected: {selectedCategory.name}</span>
+				{/if}
+			</div>	
 		</div>
 
 		{#if filteredListings.length === 0}
@@ -70,5 +92,8 @@
 				{/each}
 			</div>
 		{/if}
+
+		
 	</main>
+	<LLUpcomingActivities />
 </div>
