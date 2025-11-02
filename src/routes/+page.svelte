@@ -13,7 +13,7 @@
 
 	let searchQuery = $state('');
 	let typeFilter = $state<ListingType | 'all'>('all');
-	let categoryFilter = $state<string>('All Categories');
+	let categoryFilter = $state<number>(0);
 
 	const filteredListings = $derived(
 		data.listings.filter((listing) => {
@@ -21,7 +21,7 @@
 				listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
 				listing.description.toLowerCase().includes(searchQuery.toLowerCase());
 			const matchesType = typeFilter === 'all' || listing.type === typeFilter;
-			const matchesCategory = categoryFilter === 'All Categories' || listing.category === categoryFilter;
+			const matchesCategory = categoryFilter === 0 || listing.category_id === categoryFilter;
 			return matchesSearch && matchesType && matchesCategory;
 		})
 	);
@@ -69,7 +69,7 @@
 					selected={selectedCategory}
 					onSelect={(cat) => {
 						selectedCategory = cat;
-						categoryFilter = cat.name;
+						categoryFilter = cat.id;
 					}}
 				/>
 				{#if selectedCategory}

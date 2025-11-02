@@ -5,10 +5,11 @@ import { captcha } from "better-auth/plugins";
 import { getRequestEvent } from "$app/server";
 import { Pool } from "pg";
 
-import { POSTGRES_URL, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, PASSKEY_DOMAIN, PASSKEY_APPNAME, PASSKEY_ORIGIN, GOOGLE_CAPTCHA_SECRET } from '$env/static/private';
+import { POSTGRES_URL, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, PASSKEY_DOMAIN, 
+  PASSKEY_APPNAME, PASSKEY_ORIGIN, GOOGLE_CAPTCHA_SECRET, RESEND_API_KEY } from '$env/static/private';
 import { Resend } from 'resend';
 
-const resend = new Resend('re_bGxzR9G1_F2JcrEjnpK6QDMzc9eMmNPeS');
+const resend = new Resend(RESEND_API_KEY);
 
 export const auth = betterAuth({
       trustedOrigins: [
@@ -61,10 +62,6 @@ export const auth = betterAuth({
             clientId: GITHUB_CLIENT_ID, 
             clientSecret: GITHUB_CLIENT_SECRET, 
           },
-          google: {
-            //clientId: GOOGLE_CLIENT_ID,
-            //clientSecret: 
-          }
       },
       plugins: [
         captcha({ 
