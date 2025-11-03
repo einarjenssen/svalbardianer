@@ -10,11 +10,17 @@
 	let loading = $state(false);
 	let errorMessage = $state('');
 	let successMessage = $state('');
+	let svalbardSignupStatus = $state();
 
 	let name = $state('');
 	let email = $state('');
 	let password = $state('');
 	let confirmPassword = $state('');
+	let movedtosvalbard = $state('');
+	let polarbear = $state('');
+	let turnsignals = $state('');
+	let sideoftheroad = $state('');
+	let betterpast = $state('');
 
 	let captchaSiteKey = '6Ld-ef8rAAAAADVB5kFpbBlkRwxFBue38siDq1LT';
 
@@ -74,7 +80,7 @@
 					name,
 					email,
 					password,
-					callbackURL: '/',
+					callbackURL: '/login?verified=true',
 					// you could omit the captcha object from body
 				}),
 			});
@@ -90,6 +96,14 @@
 			}
 
 			successMessage = 'Account created! Please check your email to verify your account.';
+			if(Number.parseInt(movedtosvalbard) > 2024 || polarbear != 'yes' || turnsignals != 'no' || sideoftheroad != 'right' || betterpast != 'yes')
+			{
+				svalbardSignupStatus = 'Based on your answers, your status as a true Svalbardianer is questionable. We will let it pass this time...';
+			}
+			else
+			{
+				svalbardSignupStatus = 'You are a true Svalbardianer! Welcome aboard';
+			}
 		} catch (err) {
 			console.error(err);
 			errorMessage = 'Sign up failed. Please try again.';
@@ -181,18 +195,28 @@
 >
 	<div class="bg-white shadow-xl rounded-2xl p-10 w-full max-w-4xl signupstuff">
 		<!-- Header -->
+		{#if !successMessage}
 		<h1 class="text-3xl font-bold text-center mb-2">Create your account</h1>
 		<p class="text-sm text-gray-600 text-center mb-8">
 			You are welcome to join if you are able to pass the difficult questions below
 		</p>
+		{/if}
 
 		{#if errorMessage}
 			<p class="text-red-600 text-center mb-4">{errorMessage}</p>
 		{/if}
 
 		{#if successMessage}
-			<p class="text-green-600 text-center mb-4">{successMessage}</p>
-		{/if}
+			<div class="text-center py-10">
+				<h2 class="text-2xl font-bold mb-4">Signup successful!</h2>
+				<p class="p-4">
+					{svalbardSignupStatus}
+				</p>
+				<p class="text-gray-700">
+					An email has been sent to <strong>{email}</strong>. Please verify your account before logging in.
+				</p>
+			</div>
+		{:else}
 
 		<!-- Two-column form -->
 		<form on:submit={handleEmailSignUp} class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -256,6 +280,7 @@
 					<label for="movedtosvalbard" class="block text-sm font-medium text-gray-700 mb-1">Year moved/moving to Svalbard</label>
 					<input
 						id="movedtosvalbard"
+						bind:value={movedtosvalbard}
 						type="number"
 						placeholder="2025"
 						class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -275,6 +300,7 @@
 								id="polarbear-yes"
 								name="polarbear"
 								value="yes"
+								bind:group={polarbear}
 								class="text-blue-600 focus:ring-blue-500 border-gray-300"
 								required
 							/>
@@ -286,6 +312,7 @@
 								type="radio"
 								id="polarbear-no"
 								name="polarbear"
+								bind:group={polarbear}
 								value="no"
 								class="text-blue-600 focus:ring-blue-500 border-gray-300"
 							/>
@@ -305,6 +332,7 @@
 								type="radio"
 								id="turnsignals-yes"
 								name="turnsignals"
+								bind:group={turnsignals}
 								value="yes"
 								class="text-blue-600 focus:ring-blue-500 border-gray-300"
 								required
@@ -317,6 +345,7 @@
 								type="radio"
 								id="turnsignals-no"
 								name="turnsignals"
+								bind:group={turnsignals}
 								value="no"
 								class="text-blue-600 focus:ring-blue-500 border-gray-300"
 							/>
@@ -336,6 +365,7 @@
 								type="radio"
 								id="sideoftheroad-right"
 								name="sideoftheroad"
+								bind:group={sideoftheroad}
 								value="right"
 								class="text-blue-600 focus:ring-blue-500 border-gray-300"
 								required
@@ -348,6 +378,7 @@
 								type="radio"
 								id="sideoftheroad-left"
 								name="sideoftheroad"
+								bind:group={sideoftheroad}
 								value="left"
 								class="text-blue-600 focus:ring-blue-500 border-gray-300"
 							/>
@@ -367,6 +398,7 @@
 								type="radio"
 								id="betterpast-yes"
 								name="betterpast"
+								bind:group={betterpast}
 								value="yes"
 								class="text-blue-600 focus:ring-blue-500 border-gray-300"
 								required
@@ -379,6 +411,7 @@
 								type="radio"
 								id="betterpast-no"
 								name="betterpast"
+								bind:group={betterpast}
 								value="no"
 								class="text-blue-600 focus:ring-blue-500 border-gray-300"
 							/>
@@ -447,6 +480,8 @@
 			Already have an account?
 			<a href="/login" class="text-blue-600 hover:underline">Sign in</a>
 		</p>
+
+		{/if}
 	</div>
 </div>
 

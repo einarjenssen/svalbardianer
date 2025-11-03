@@ -2,6 +2,9 @@
 	import { authClient } from '$lib/auth-client';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+    import { page } from '$app/state';
+
+    const isVerified = page.url.searchParams.get('verified');
 
 	// Svelte 5 runes
 	let loading = $state(false);
@@ -132,6 +135,7 @@
 >
     <img src="/assets/graphics/polarsyssel.svg" class="polarsyssel" alt="" bind:this={imgEl} />
 	<div class="loginstuff bg-white shadow-xl rounded-2xl p-10 w-full max-w-md">
+        {#if isVerified && isVerified === "true"}<h3 class="text-center pb-2 text-green-600">Your email was verified OK!</h3>{/if}
 		<h1 class="text-3xl font-bold text-center mb-6">Sign in to your account</h1>
 
 		{#if errorMessage}
