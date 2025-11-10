@@ -18,6 +18,9 @@ importers:
       '@eslint/js':
         specifier: ^9.36.0
         version: 9.38.0
+      '@humanspeak/svelte-headless-table':
+        specifier: ^6.0.1
+        version: 6.0.1(svelte@5.41.0)
       '@internationalized/date':
         specifier: ^3.8.1
         version: 3.10.0
@@ -353,6 +356,22 @@ packages:
   '@humanfs/node@0.16.7':
     resolution: {integrity: sha512-/zUx+yOsIrG4Y43Eh2peDeKCxlRt/gET6aHfaKpuq267qXdYDFViVHfMaLyygZOnl0kGWxFIgsBy8QFuTLUXEQ==}
     engines: {node: '>=18.18.0'}
+
+  '@humanspeak/svelte-headless-table@6.0.1':
+    resolution: {integrity: sha512-upyUD7cjssuW2LaM2Ay+kPKcVRIBp/eLmCy1hPBBgBGdUTJVkxoKTGJjVejqSpKjyS0esMiyfJgBDYD/gODMdA==}
+    peerDependencies:
+      svelte: ^5.30.0
+
+  '@humanspeak/svelte-keyed@5.0.1':
+    resolution: {integrity: sha512-jFvANd9Nb5B/u9ELTSw1iUyuckgjF9R15BvK1V7eLLPurt4hxu35bZAoZMkqYxmj8fazcSw9UkmEu66jZ0+0Rg==}
+
+  '@humanspeak/svelte-render@5.1.1':
+    resolution: {integrity: sha512-OGqKLVezvEvHmouQXhzfGibtFxgA6a9PAuuNzJ54t1KFQScBCDl9MtLao+ze+5nVUJHoVCWbvXOEMOFY4eGROw==}
+    peerDependencies:
+      svelte: ^5.0.0
+
+  '@humanspeak/svelte-subscribe@5.0.0':
+    resolution: {integrity: sha512-rQEcFFk77ZzYXFPHWf3K8TmjP/97NwNbf6qBE0s5XYB2eqdDNvxa8fKHVPDBukTmBCX53O20FJjXvmlN5yXzjw==}
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -2091,6 +2110,22 @@ snapshots:
     dependencies:
       '@humanfs/core': 0.19.1
       '@humanwhocodes/retry': 0.4.3
+
+  '@humanspeak/svelte-headless-table@6.0.1(svelte@5.41.0)':
+    dependencies:
+      '@humanspeak/svelte-keyed': 5.0.1
+      '@humanspeak/svelte-render': 5.1.1(svelte@5.41.0)
+      '@humanspeak/svelte-subscribe': 5.0.0
+      svelte: 5.41.0
+
+  '@humanspeak/svelte-keyed@5.0.1': {}
+
+  '@humanspeak/svelte-render@5.1.1(svelte@5.41.0)':
+    dependencies:
+      '@humanspeak/svelte-subscribe': 5.0.0
+      svelte: 5.41.0
+
+  '@humanspeak/svelte-subscribe@5.0.0': {}
 
   '@humanwhocodes/module-importer@1.0.1': {}
 

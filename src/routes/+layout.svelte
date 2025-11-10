@@ -20,9 +20,11 @@
 		</a>
 
 		<nav class="hidden items-center gap-2 md:flex">
+
 			<Button variant={page.url.pathname === '/' ? 'default' : 'ghost'} href="/" size="sm">
 				Browse
 			</Button>
+			
 			<Button
 				variant={page.url.pathname === '/listings/create' ? 'default' : 'ghost'}
 				href="/listings/create"
@@ -30,6 +32,9 @@
 			>
 				<CirclePlus class="mr-2 h-4 w-4" />
 				Post Item
+			</Button>
+			<Button variant={page.url.pathname === '/shipping' ? 'default' : 'ghost'} href="/shipping" size="sm">
+				Shipping
 			</Button>
 			<Button
 				variant={page.url.pathname.includes('user') ? 'default' : 'ghost'}
