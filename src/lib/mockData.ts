@@ -67,6 +67,7 @@ export const mockListings: Listing[] = [
 			avatar: '/diverse-woman-avatar.png'
 		},
 		category: 'Furniture',
+		category_id: 1,
 		location: 'Downtown',
 		createdAt: new Date('2025-10-10'),
 		status: 'available',
@@ -97,6 +98,7 @@ export const mockListings: Listing[] = [
 			avatar: '/man-avatar.png'
 		},
 		category: 'Kids & Baby',
+		category_id: 2,
 		location: 'Northside',
 		createdAt: new Date('2025-10-12'),
 		status: 'available',
@@ -115,6 +117,7 @@ export const mockListings: Listing[] = [
 			avatar: '/woman-avatar-3.png'
 		},
 		category: 'Garden & Outdoor',
+		category_id: 3,
 		location: 'Westside',
 		createdAt: new Date('2025-10-11'),
 		status: 'available',
@@ -154,6 +157,7 @@ export const mockListings: Listing[] = [
 			avatar: '/diverse-person-avatars.png'
 		},
 		category: 'Games & Hobbies',
+		category_id: 4,
 		location: 'Southside',
 		createdAt: new Date('2025-10-14'),
 		status: 'sold',
@@ -193,6 +197,7 @@ export const mockListings: Listing[] = [
 			avatar: '/elderly-woman-avatar.png'
 		},
 		category: 'Home & Decor',
+		category_id: 6,
 		location: 'Downtown',
 		createdAt: new Date('2025-10-13'),
 		status: 'available',

@@ -14,6 +14,7 @@ export interface Listing {
 		avatar: string;
 	};
 	category: string;
+	category_id: number;
 	location: string;
 	createdAt: Date;
 	status: ListingStatus;
