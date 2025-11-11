@@ -1,17 +1,26 @@
 <script lang="ts">
 
-    import { readable } from "svelte/store";
+    import type { PageProps } from './$types';
+    import { readable } from 'svelte/store';
+    import type { OnlineStore } from '$lib/types/onlinestore';
     import { createTable, Subscribe, Render, createRender } from '@humanspeak/svelte-headless-table';
 
-    const data = readable([
-        { name: 'Fjellsport', url: 'https://fjellsport.no', verified: 'Yes', minShipping: '500'},
-        { name: 'Komplett', url: 'https://komplett.no', verified: 'Yes', minShipping: '600' },
-        { name: 'Dustin', url: 'https://dustinhome.no', verified: 'Yes', minShipping: '100' },
-    ]);
+    let { data }: PageProps = $props();
 
-    const table = createTable(data);
+    const onloneStoreData = readable<OnlineStore[]>(data.onlineStores);
+
+    const table = createTable(onloneStoreData);
 
     const columns = table.createColumns([
+        table.column({
+            header: 'Status',
+            accessor: 'is_shipping',
+            cell: (value) => {
+                if (value.value?.toString().toUpperCase() === 'TRUE') return "YES";
+                if (value.value?.toString().toUpperCase() === 'FALSE') return "NO";
+                return "UNKNOWN"
+            },
+        }),
         table.column({
             header: 'Name',
             accessor: 'name',
@@ -26,7 +35,7 @@
         }),
         table.column({
             header: 'Min. shipping',
-            accessor: 'minShipping'
+            accessor: 'min_shipping'
         }),
     ]);
 
@@ -35,21 +44,21 @@
 </script>
 
 <main class="container mx-auto px-4 py-8">
-	<div class="mx-auto max-w-2xl">
+	<div class="mx-auto max-w-6xl space-y-6">
 		<div class="mb-8">
-			<h1 class="mb-2 text-3xl font-bold text-foreground">Who is sending to Svalbard?</h1>
+			<h1 class="mb-2 text-3xl font-bold text-foreground">Who is sending stuff to Svalbard?</h1>
 			<p class="leading-relaxed text-muted-foreground">
 				Register, share your experience and vote for the best stores!
 			</p>
 		</div>
-        <div class="table-auto">
-            <table class="shippingtable" {...$tableAttrs}>
-                <thead>
+        <div class="overflow-x-auto rounded-2xl shadow-md border border-gray-200 bg-white">
+            <table class="min-w-full border-collapse text-left text-sm text-gray-600" {...$tableAttrs}>
+                <thead class="bg-gray-100 text-gray-900 uppercase text-xs font-semibold">
                     {#each $headerRows as headerRow (headerRow.id)}
                     <tr>
                         {#each headerRow.cells as cell (cell.id)}
                         <Subscribe attrs={cell.attrs()} let:attrs>
-                            <th {...attrs}>
+                            <th class="px-6 py-4" {...attrs}>
                             <Render of={cell.render()} />
                             </th>
                         </Subscribe>
@@ -57,12 +66,12 @@
                     </tr>
                     {/each}
                 </thead>
-                <tbody {...$tableBodyAttrs}>
+                <tbody class="divide-y divide-gray-200" {...$tableBodyAttrs}>
                     {#each $pageRows as row (row.id)}
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-gray-50 transition">
                         {#each row.cells as cell (cell.id)}
                         <Subscribe attrs={cell.attrs()} let:attrs>
-                            <td {...attrs}>
+                            <td class="px-6 py-4 font-medium text-gray-900" {...attrs}>
                             <Render of={cell.render()} />
                             </td>
                         </Subscribe>
@@ -76,6 +85,9 @@
 </main>
 
 <style>
+    .shippingtable {
+        display: flex flex-col;
+    }
     .shippingtable th {
         font-weight: bold;
         font-size: large;
@@ -85,8 +97,8 @@
     }
     .shippingtable td {
         font-weight: normal;
-        padding-left: 2px;
-        padding-right: 2px;
+        padding-left: 8px;
+        padding-right: 4px;
         text-align: left;
     }
     .shippingtable tr:nth-child(even) {

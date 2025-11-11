@@ -7,7 +7,7 @@ CREATE TABLE categories (
 );
 
 -- LISTINGS
-CREATE TABLE listings {
+CREATE TABLE listings (
     id SERIAL PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT NOT NULL,
@@ -19,7 +19,18 @@ CREATE TABLE listings {
     created_at TIMESTAMP NOT NULL,
     status_id INTEGER NOT NULL,
     cover_image_id UID NOT NULL,
-}
+);
+
+
+CREATE TABLE online_store (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  is_shipping BOOLEAN,
+  url TEXT NOT NULL,
+  verified TEXT NOT NULL,
+  last_verified TIMESTAMP NULL,
+  min_shipping DOUBLE PRECISION
+);
 
 
 

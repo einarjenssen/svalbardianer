@@ -37,8 +37,8 @@
 				<CirclePlus class="mr-2 h-4 w-4" />
 				Post Item
 			</Button>
-			<Button variant={page.url.pathname === '/shipping' ? 'default' : 'ghost'} href="/shipping" size="sm">
-				Shipping
+			<Button variant={page.url.pathname === '/onlinestore' ? 'default' : 'ghost'} href="/onlinestore" size="sm">
+				Online Stores
 			</Button>
 			<Button
 				variant={page.url.pathname.includes('user') ? 'default' : 'ghost'}
