@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { Input } from '$lib/components/ui/input';
-	import * as Select from '$lib/components/ui/select/index';
 	import ListingCard from '$lib/ListingCard.svelte';
 	import { Search, X } from '@lucide/svelte';
-	import type { ListingType } from '$lib/types';
 	import type { PageProps } from './$types';
 	import type { Category } from '$lib/types/category'
 	import LLUpcomingActivities from '$lib/components/LLUpcomingActivities.svelte';
@@ -12,22 +10,25 @@
 	let { data }: PageProps = $props();
 
 	let searchQuery = $state('');
-	let typeFilter = $state<ListingType | 'all'>('all');
+	let typeFilter = $state<'' | 'all'>('all');
 	let categoryFilter = $state<number>(0);
+	let selectedCategory = $state<Category | null>(null);
 
 	const filteredListings = $derived(
 		data.listings.filter((listing) => {
 			const matchesSearch =
 				listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				listing.description.toLowerCase().includes(searchQuery.toLowerCase());
+				listing.description?.toLowerCase().includes(searchQuery.toLowerCase());
 			const matchesType = typeFilter === 'all' || listing.type === typeFilter;
 			const matchesCategory = categoryFilter === 0 || listing.category_id === categoryFilter;
 			return matchesSearch && matchesType && matchesCategory;
 		})
 	);
 
-	let selectedCategory: Category | null = null;
-
+	function clearCat() {
+		categoryFilter = 0;
+		selectedCategory = null;
+	}
 
 </script>
 
@@ -73,7 +74,8 @@
 					}}
 				/>
 				{#if selectedCategory}
-					<span class="text-sm text-muted-foreground">Selected: {selectedCategory.name}</span>
+					<!--<span class="text-sm text-muted-foreground">Selected: {selectedCategory.name}</span> -->
+					<button onclick={clearCat}>X</button>
 				{/if}
 			</div>	
 		</div>
@@ -86,7 +88,7 @@
 				<p class="text-sm text-muted-foreground">Try adjusting your search or filters</p>
 			</div>
 		{:else}
-			<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+			<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4	">
 				{#each filteredListings as listing (listing.id)}
 					<ListingCard {listing} />
 				{/each}

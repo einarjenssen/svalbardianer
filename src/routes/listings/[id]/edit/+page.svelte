@@ -41,7 +41,7 @@
 
 	let title = $state(data.listing.title);
 	let description = $state(data.listing.description);
-	let category = $state(data.listing.category);
+	let category = $state(data.listing.category_id);
 	let location = $state(data.listing.location);
 	let price: number | null = $state(data.listing.price);
 	let imagePreviews: string[] = $state(data.listing.images ?? []);

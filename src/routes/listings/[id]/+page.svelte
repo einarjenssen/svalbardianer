@@ -20,6 +20,11 @@
 	} from '@lucide/svelte';
 	import type { PageProps } from './$types';
 
+	const nokFormatter = new Intl.NumberFormat('nb-NO', {
+		style: 'currency',
+		currency: 'NOK',
+	});
+
 	// AUTH
 	import { authClient } from "$lib/auth-client";
 	import { goto } from '$app/navigation';
@@ -152,8 +157,7 @@
 								</Badge>
 							{:else}
 								<Badge variant="secondary" class="flex items-center gap-1 text-lg">
-									<DollarSign class="h-4 w-4" />
-									{data.listing.price}
+									{nokFormatter.format(data.listing.price)}
 								</Badge>
 							{/if}
 							{#if data.listing.status === 'sold'}
@@ -172,11 +176,14 @@
 						</div>
 						<div class="flex items-center gap-1">
 							<Tag class="h-4 w-4" />
-							<span>{data.listing.category}</span>
+							<span>{data.listing.mainCategoryName}</span>
+							{#if data.listing.categoryName != data.listing.mainCategoryName}
+							<span> / {data.listing.mainCategoryName}</span>
+							{/if}
 						</div>
 						<div class="flex items-center gap-1">
 							<Calendar class="h-4 w-4" />
-							<span>Posted {data.listing.createdAt.toLocaleDateString()}</span>
+							<span>Posted {data.listing.created.toLocaleDateString()}</span>
 						</div>
 					</div>
 
@@ -195,7 +202,12 @@
 					</CardHeader>
 					<CardContent>
 						<div class="space-y-6">
-							{#if data.listing.comments.length === 0}
+							<p class="py-4 text-center text-sm text-muted-foreground">
+								No comments yet. Be the first to ask a question!
+							</p>
+						<!--
+						<div class="space-y-6">
+							{#if  === 0}
 								<p class="py-4 text-center text-sm text-muted-foreground">
 									No comments yet. Be the first to ask a question!
 								</p>
@@ -236,6 +248,7 @@
 									{/each}
 								</div>
 							{/if}
+							-->
 
 							<Separator />
 
@@ -287,16 +300,18 @@
 					</CardHeader>
 					<CardContent class="space-y-6">
 						<a
-							href={`/user/${data.listing.seller.id}`}
+							href={`/user/${data.listing.seller_id}`}
 							class="flex items-center gap-3 transition-opacity hover:opacity-80"
 						>
 							<Avatar class="h-12 w-12">
-								<AvatarImage src={data.listing.seller.avatar || '/placeholder.svg'} />
-								<AvatarFallback>{data.listing.seller.name[0]}</AvatarFallback>
+								<!-- <AvatarImage src={data.listing.seller.avatar || '/placeholder.svg'} />
+								<AvatarFallback>{data.listing.seller.name[0]}</AvatarFallback>-->
+								<AvatarImage src='/placeholder.svg' />
+								<AvatarFallback>Kjell T Ring</AvatarFallback>
 							</Avatar>
 							<div>
 								<p class="font-medium text-foreground hover:underline">
-									{data.listing.seller.name}
+									Kjell T Ring
 								</p>
 								<p class="text-sm text-muted-foreground">{data.listing.location}</p>
 							</div>
@@ -333,7 +348,7 @@
 								{:else}
 									<div class="rounded-lg border border-primary/20 bg-primary/5 p-4">
 										<p class="mb-1 text-sm font-medium text-foreground">
-											{data.listing.price === 0 ? 'Free Item' : `Price: $${data.listing.price}`}
+											{data.listing.price === 0 ? 'Free Item' : `Price: ${nokFormatter.format(data.listing.price)}`}
 										</p>
 										<p class="text-xs text-muted-foreground">
 											Use the comments section to contact the seller

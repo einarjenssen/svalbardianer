@@ -1,4 +1,3 @@
-import { mockCurrentUser, mockListings } from '$lib/mockData';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params, parent }) {

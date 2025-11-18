@@ -8,18 +8,27 @@ CREATE TABLE categories (
 
 -- LISTINGS
 CREATE TABLE listings (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     title TEXT NOT NULL,
-    description TEXT NOT NULL,
-    -- TYPE?
-    price NUMERIC NOT NULL,
+    description TEXT,
+    TYPE TEXT NOT NULL,
+    price DOUBLE PRECISION NOT NULL,
     seller_id INTEGER NOT NULL,
     category_id INTEGER NOT NULL,
     location TEXT,
-    created_at TIMESTAMP NOT NULL,
-    status_id INTEGER NOT NULL,
-    cover_image_id UID NOT NULL,
+    created TIMESTAMP NOT NULL,
+    updated TIMESTAMP NOT NULL,
+    status INTEGER NOT NULL,
+    tags TEXT,
+    cover_image_id UUID NOT NULL DEFAULT gen_random_uuid ()
 );
+
+CREATE TABLE listing_image (
+  id UUID PRIMARY KEY NOT NULL DEFAULT gen_random_uuid (),
+  listing_id BIGINT NOT NULL,
+  seller_id INTEGER NOT NULL,
+  created TIMESTAMP NOT NULL
+)
 
 
 CREATE TABLE online_store (
