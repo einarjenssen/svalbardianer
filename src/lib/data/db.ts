@@ -21,3 +21,16 @@ export async function query<T>(text: string, params?: any[]): Promise<T[]> {
     client.release();
   }
 }
+
+// Reusable query function
+export async function query2<T>(text: string, params?: any[]): Promise<T[]> {
+  const client = await pool.connect();
+  
+  try {
+    const result = await client.query(text, params);
+    return result.rows as T[];
+  }
+  finally {
+    client.release();
+  }
+}

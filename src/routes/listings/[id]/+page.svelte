@@ -19,6 +19,8 @@
 		Pencil
 	} from '@lucide/svelte';
 	import type { PageProps } from './$types';
+	import { getCommentsByListing } from './data.remote';
+	
 
 	const nokFormatter = new Intl.NumberFormat('nb-NO', {
 		style: 'currency',
@@ -58,6 +60,7 @@
 	//
 
 	let { data }: PageProps = $props();
+	const commentsQuery = getCommentsByListing(data.listing.id);
 
 	let currentImageIndex = $state(0);
 	let commentText = $state('');
@@ -201,10 +204,56 @@
 						<CardTitle>Comments</CardTitle>
 					</CardHeader>
 					<CardContent>
+						{#if commentsQuery.error}
+							<p>oops!</p>
+						{:else if commentsQuery.loading}
+							<p>loading...</p>
+						{:else}
+							<ul>
+								{#if commentsQuery.current?.length === 0}
+									<p class="py-4 text-center text-sm text-muted-foreground">
+										No comments yet. Be the first to ask a question!
+									</p>
+								{/if}
+								{#each commentsQuery.current as comment}
+									<div class="space-y-4">
+											<div class="flex gap-3">
+												<a href={`/user/${comment.user_id}`}>
+													<Avatar
+														class="h-8 w-8 shrink-0 cursor-pointer transition-opacity hover:opacity-80"
+													>
+														<!--<AvatarImage src={comment.author.avatar || '/placeholder.svg'} />-->
+														<!--<AvatarFallback>{comment.author.name[0]}</AvatarFallback>-->
+													</Avatar>
+												</a>
+												<div class="flex-1">
+													<div class="flex items-baseline gap-2">
+														<a href={`/user/${comment.user_id}`}>
+															<p
+																class="cursor-pointer text-sm font-medium text-foreground hover:underline"
+															>
+																{comment.user_id}
+															</p>
+														</a>
+														<p class="text-xs text-muted-foreground">
+															{comment.updated.toLocaleDateString()} at{' '}
+															{comment.updated.toLocaleTimeString([], {
+																hour: '2-digit',
+																minute: '2-digit'
+															})}
+														</p>
+													</div>
+													<p class="mt-1 text-sm leading-relaxed text-muted-foreground">
+														{comment.comment}
+													</p>
+												</div>
+											</div>
+									</div>
+								{/each}
+							</ul>
+						{/if}
 						<div class="space-y-6">
-							<p class="py-4 text-center text-sm text-muted-foreground">
-								No comments yet. Be the first to ask a question!
-							</p>
+							
 						<!--
 						<div class="space-y-6">
 							{#if  === 0}

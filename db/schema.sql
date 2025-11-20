@@ -23,6 +23,15 @@ CREATE TABLE listings (
     cover_image_id UUID NOT NULL DEFAULT gen_random_uuid ()
 );
 
+CREATE TABLE listing_comments(
+  id BIGSERIAL PRIMARY KEY,
+  comment TEXT NOT NULL,
+  listing_id BIGINT NOT NULL,
+  user_id TEXT NOT NULL,
+  created TIMESTAMP NOT NULL,
+  updated TIMESTAMP NOT NULL
+);
+
 CREATE TABLE listing_image (
   id UUID PRIMARY KEY NOT NULL DEFAULT gen_random_uuid (),
   listing_id BIGINT NOT NULL,
@@ -40,6 +49,7 @@ CREATE TABLE online_store (
   last_verified TIMESTAMP NULL,
   min_shipping DOUBLE PRECISION
 );
+
 
 
 

@@ -194,6 +194,7 @@
 				<span>Continue with Google</span>
 			</button>
 
+			<!--
 			<button
 				class="flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2 hover:bg-gray-50"
 				onclick={() => handleSocialLogin('facebook')}
@@ -202,7 +203,9 @@
 				<img src="/assets/logos/facebook-color.svg" alt="Facebook" class="h-5 w-5" />
 				<span>Continue with Facebook</span>
 			</button>
-
+			-->
+			
+			<!--
 			<button
 				class="flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2 hover:bg-gray-50"
 				onclick={() => handleSocialLogin('microsoft')}
@@ -211,6 +214,7 @@
 				<img src="/assets/logos/mssymbol_19.svg" alt="Microsoft" class="h-5 w-5" />
 				<span>Continue with Microsoft</span>
 			</button>
+			-->
 
 			<button
 				class="flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2 hover:bg-gray-50"

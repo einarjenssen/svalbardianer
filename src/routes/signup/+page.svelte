@@ -219,7 +219,7 @@
 		{:else}
 
 		<!-- Two-column form -->
-		<form on:submit={handleEmailSignUp} class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+		<form onsubmit={handleEmailSignUp} class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
 			<!-- Left column -->
 			<div class="space-y-4">
 				<div>
@@ -437,37 +437,41 @@
 		<!-- Optional social login section -->
 		<div class="border-t border-gray-200 pt-6">
 			<p class="text-center text-gray-500 text-sm mb-4">or continue with</p>
-			<div class="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-lg mx-auto">
+			<div class="grid grid-cols-2 md:grid-cols-2 gap-3 max-w-lg mx-auto">
 				<button
 					class="flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2 hover:bg-gray-50"
-					on:click={() => handleSocialLogin('google')}
+					onclick={() => handleSocialLogin('google')}
 					disabled={loading}
 				>
 					<img src="/assets/logos/google-color.svg" alt="Google" class="h-5 w-5" />
 					<span>Google</span>
 				</button>
 
+				<!--
 				<button
 					class="flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2 hover:bg-gray-50"
-					on:click={() => handleSocialLogin('facebook')}
+					onclick={() => handleSocialLogin('facebook')}
 					disabled={loading}
 				>
 					<img src="/assets/logos/facebook-color.svg" alt="Facebook" class="h-5 w-5" />
 					<span>Facebook</span>
 				</button>
+				-->
 
+				<!--
 				<button
 					class="flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2 hover:bg-gray-50"
-					on:click={() => handleSocialLogin('microsoft')}
+					onclick={() => handleSocialLogin('microsoft')}
 					disabled={loading}
 				>
 					<img src="/assets/logos/mssymbol_19.svg" alt="Microsoft" class="h-5 w-5" />
 					<span>Microsoft</span>
 				</button>
+				-->
 
 				<button
 					class="flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2 hover:bg-gray-50"
-					on:click={() => handleSocialLogin('github')}
+					onclick={() => handleSocialLogin('github')}
 					disabled={loading}
 				>
 					<img src="/assets/logos/github-color.svg" alt="GitHub" class="h-5 w-5" />
