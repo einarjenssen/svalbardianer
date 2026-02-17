@@ -14,7 +14,7 @@ EXPOSE 8080
 COPY package*.json .
 
 #  Installs dependencies based on the package-lock.json file. Using npm ci is beneficial for reproducible builds
-RUN pnpm ci
+RUN pnpm install
 
 # Copies all files and directories from your local project into the container's /app directory.
 COPY . .
