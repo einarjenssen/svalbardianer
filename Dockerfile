@@ -2,6 +2,7 @@
 
 # This line sets the base image for the builder stage to Node.js version 20.9.0 running on Alpine Linux
 FROM node:22.15.1-alpine AS builder
+RUN npm install -g pnpm 
 
 # Sets the working directory inside the container to /app. All subsequent commands will be run from this directory.
 WORKDIR /app
