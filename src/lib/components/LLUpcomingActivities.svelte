@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
 
-  let events = [];
+  let events:any = [];
   let loading = true;
   let error = '';
 
@@ -10,7 +10,7 @@
       const res = await fetch('/api/activities');
       if (!res.ok) throw new Error('Kunne ikke hente aktiviteter.');
       events = await res.json();
-    } catch (err) {
+    } catch (err:any) {
       error = err.message;
     } finally {
       loading = false;
@@ -30,7 +30,7 @@
   };
 </script>
 
-<section class="p-6 max-w-6xl mx-auto">
+<section class="p-6 container mx-auto">
   <h1 class="text-3xl font-bold text-gray-900 mb-6 text-center">
     Kommende aktiviteter i Longyearbyen - Se mer på Lokalstyret.no
   </h1>
