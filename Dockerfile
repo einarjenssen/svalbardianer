@@ -31,26 +31,16 @@ RUN pnpm prune --production
 # Starts a new build stage using the same base image. This stage will contain only the necessary files to run your app.
 FROM node:22.15.1-alpine
 
-# Sets the working directory to /app.
 WORKDIR /app
 
-# Copies the build directory and node_modules from the builder stage into the final image. Also copies package.json.
-COPY --from=builder /app/build build/
-COPY --from=builder /app/node_modules node_modules/
+COPY --from=builder /app/build ./build
+COPY --from=builder /app/node_modules ./node_modules
 COPY package.json .
-#COPY static static/
-#COPY src src/
-#COPY *config* .
 
-# Copies your debug.env file into the container as .env. This file contains environment variables needed at runtime.
-# MAKE SURE .env CONTAINS THE host.docker.internal address instead of localhost!!11
-COPY .env.docker .env
-
-# Sets the NODE_ENV environment variable to production.
 ENV NODE_ENV=production
 ENV PORT=8080
-# Change ownership of application files to node user and switch to non-root user
+
 RUN chown -R 1000:1000 /app
 USER 1000
-# Specifies the command to run when the container starts. In this case, it runs node build, which starts your SvelteKit app.
-ENTRYPOINT ["node", "build"]
+
+ENTRYPOINT ["node", "build/index.js"]
