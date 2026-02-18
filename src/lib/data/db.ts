@@ -1,6 +1,8 @@
 // src/lib/server/db.ts
 import { Pool } from 'pg';
-import { POSTGRES_URL } from '$env/static/private';
+
+import { env } from '$env/dynamic/private';
+const { POSTGRES_URL } = env;
 
 // Environment variables from .env
 const pool = new Pool({

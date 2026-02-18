@@ -11,10 +11,10 @@ WORKDIR /app
 EXPOSE 8080
 
 # Copies package.json and package-lock.json (if it exists) from your local machine to the container's /app directory.
-COPY package*.json .
+COPY package.json pnpm-lock.yaml ./
 
 #  Installs dependencies based on the package-lock.json file. Using npm ci is beneficial for reproducible builds
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
 # Copies all files and directories from your local project into the container's /app directory.
 COPY . .
