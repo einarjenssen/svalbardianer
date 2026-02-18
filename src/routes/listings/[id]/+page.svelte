@@ -22,10 +22,33 @@
 
 	// AUTH
 	import { authClient } from "$lib/auth-client";
+	import { goto } from '$app/navigation';
+
   	const session = authClient.useSession();
 
 	async function login() {
-    	await authClient.signIn.social({provider: "github", callbackURL: "/"});
+		goto('/login');
+    	//await authClient.signIn.social({provider: "github", callbackURL: "/"});
+		/**
+		const result = await authClient.signIn.passkey({
+			autoFill: false,   // try false to get explicit prompt
+			fetchOptions: {
+			onSuccess(ctx) {
+				window.location.href = "/listings/";
+			},
+			onError(ctx) {
+				console.error("Passkey login failed:", ctx.error?.message);
+			}
+			}
+		});
+
+		// optionally debug result
+		if (result.error) {
+			console.warn("passkey sign-in error:", result.error);
+		} else {
+			console.log("passkey sign-in result:", result.data);
+		}
+		*/
   	}
 	//
 
@@ -165,7 +188,7 @@
 					</div>
 				</div>
 
-				{#if $session.data}
+				{#if $session.data && $session.data.user?.approved == true}
 				<Card>
 					<CardHeader>
 						<CardTitle>Comments</CardTitle>
@@ -228,6 +251,15 @@
 								</Button>
 							</div>
 						</div>
+					</CardContent>
+				</Card>
+				{:else if $session.data && $session.data.user?.approved == false}
+				<Card>
+					<CardHeader>
+						<CardTitle>Pending approval</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<p>An administrator will need to approve your user before you can comment</p>
 					</CardContent>
 				</Card>
 				{:else}

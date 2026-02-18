@@ -6,8 +6,11 @@
 	import type { LayoutData } from './$types';
 	import type { Snippet } from 'svelte';
 	import * as Sheet from '$lib/components/ui/sheet';
+	import { authClient } from "$lib/auth-client"; 
 
 	let { children, data }: { data: LayoutData; children: Snippet } = $props();
+	const session = authClient.useSession();
+	
 </script>
 
 <header
@@ -17,6 +20,7 @@
 		<a href="/" class="flex items-center gap-2">
 			<img src="/svalbardianerlogo-200.png" class="h-10 w-10" alt="Svalbardianer.no"/>
 			<span class="text-xl font-semibold text-foreground">Svalbardianer.no</span>
+			<span class="hidden lg	:block text-lg leading-relaxed text-muted-foreground"> [ Connect, Inform, Buy and Sell ]</span>
 		</a>
 
 		<nav class="hidden items-center gap-2 md:flex">
@@ -33,11 +37,11 @@
 			</Button>
 			<Button
 				variant={page.url.pathname.includes('user') ? 'default' : 'ghost'}
-				href={'/user/' + data.currentUser.id}
+				href={'/user'}
 				size="sm"
 			>
 				<User class="mr-2 h-4 w-4" />
-				Profile
+				{session == null ? 'Sign in' : $session.data?.user.email}
 			</Button>
 		</nav>
 		<Sheet.Root>
@@ -69,7 +73,7 @@
 						href="/profile"
 					>
 						<User class="mr-2 h-4 w-4" />
-						Profile
+
 					</Button>
 				</nav>
 			</Sheet.Content>
